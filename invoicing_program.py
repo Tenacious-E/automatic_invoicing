@@ -9,16 +9,17 @@ creates multiple invoices with line items for each invoice.
 """
 
 
-#need to have subfolders for client rates, output, and timeshee report.
+#need to have subfolders for client rates, output, and timesheet report.
 
 #gets the client rates from client rate folder
-Input_client_rates = os.path.normpath(os.getcwd() + os.sep + os.pardir + "/Example invoicing program/Client Rates Folder")
+Input_client_rates = os.path.normpath(os.getcwd() + os.sep + os.pardir + "/automatic_invoicing/Client Rates Folder")
+
 
 #gets the timesheet report from timesheet folder
-Input_report_timesheet = os.path.normpath(os.getcwd() + os.sep + os.pardir + "/Example invoicing program/Timesheet Report")
+Input_report_timesheet = os.path.normpath(os.getcwd() + os.sep + os.pardir + "/automatic_invoicing/Timesheet Report")
 
 #saves the output path
-Output = os.path.normpath(os.getcwd() + os.sep + os.pardir + "/Example invoicing program/Output")
+Output = os.path.normpath(os.getcwd() + os.sep + os.pardir + "/automatic_invoicing/Output")
 
 #get the path in order to see if there's an error later
 Error_file_path = os.path.normpath(os.getcwd() + os.sep + os.pardir)
@@ -27,10 +28,10 @@ Error_file_path = os.path.normpath(os.getcwd() + os.sep + os.pardir)
 if exists(Error_file_path +'/rename_companies.csv'):
     os.remove(Error_file_path+'/rename_companies.csv')
 #saving paths of client rates and timesheet
-filelist_client_rates = os.listdir(Input_client_rates)
-filelist_report_timesheet = os.listdir(Input_report_timesheet)
+#filelist_client_rates = os.listdir(Input_client_rates)
+#filelist_report_timesheet = os.listdir(Input_report_timesheet)
 
-# create a dataframe 
+# create a dataframe for timesheet 
 df= pd.read_excel(Input_report_timesheet +"/timesheet_report.xlsx")
 
 #input client rates spreadsheet as a dataframe
@@ -189,7 +190,8 @@ else:
         final_df.index = final_df['date'].values
         #drop the column date because its in the index now
         final_df.drop(['date'], axis = 1, inplace =True)
-
+        print(Output + "/" + company + ' invoice.xlsx')
+        
         #send the dataframe to the correct file as an excel file.
         final_df.to_excel(Output + "/" + company + ' invoice.xlsx')
         
